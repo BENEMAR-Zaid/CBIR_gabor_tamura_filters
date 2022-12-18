@@ -12,7 +12,16 @@
   <link href="{{url_for('static', filename='assets/js/plugins/@fortawesome/fontawesome-free/css/all.min.css')}}" rel="stylesheet" />
   <!-- CSS Files -->
   <link href="{{url_for('static', filename='assets/css/argon-dashboard.css')}}" rel="stylesheet" />
-  <style>.copyleft {display:inline-block; transform: rotate(180deg);}</style>
+  <style>.copyleft {display:inline-block; transform: rotate(180deg);}
+  
+  </style>
+  <script>
+    function SomeDeleteRowFunction(o) {
+     //no clue what to put here?
+     var p=o.parentNode.parentNode;
+         p.parentNode.removeChild(p);
+    }
+    </script>
 </head>
 {% block content %}
 <body class="">
@@ -22,7 +31,11 @@
       <div class="container-fluid">
         <!-- Brand -->
         <span class="h4 mb-0 text-white text-uppercase d-none d-lg-inline-block"><a href="/" class="mb-0 text-sm font-weight-bold text-white">Content Based Image Retrival</a></span>
-        
+        <div class="media align-items-center">
+          <div class="media-body ml-2 d-none d-lg-block">
+            <a href="#" class="mb-0 text-sm  font-weight-bold text-white">Update Dataset</a>
+          </div>
+        </div>
       </div>
     </nav>
     <!-- End Navbar -->
@@ -96,22 +109,19 @@
               {% if page_status == 1 %}
               <div class="card card-stats mb-4 mb-xl-0">
                 <div class="card-body">
-                  <div class="table-responsive">
-                    <table class="table table-hover" id="myTable">
-                        <thead>
-                        <tr>
-                            <th class="border-top-0">Image</th>
-                            <th class="border-top-0">Score</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        </tbody>
-                    </table>
-                </div>
+                  <div class="row">
+                    <div class="col">
+                      <h5 class="card-title text-uppercase text-muted mb-0">Best Result</h5>
+                      <span class="h2 font-weight-bold mb-0">{{ nearest[-0:-6] }}</span>
+                    </div>
+                    <div class="col-auto">
+                      <div class="icon icon-shape bg-success text-white rounded-circle shadow">
+                        <i class="ni ni-chart-bar-32"></i>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
-              
-             
               {% endif %}
         </div>
 
@@ -129,7 +139,7 @@
             </div>
             <div class="card-body" {% if page_status == 2 %} style="height: 350px" {% endif %}>
                 {% if page_status == 2 %}
-                  
+                  <p>select images</p>
                 {% else %}
                 <div class="table-responsive">
                 <table class="table align-items-center table-flush text-white">
@@ -138,6 +148,7 @@
                       <th scope="col">No.</th>
                       <th scope="col">Image</th>
                       <th scope="col">Score</th>
+                      <th scope="col">Re-weithing</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -148,6 +159,7 @@
                           {% set count.value = count.value + 1 %}
                           <td><img class="img-responsive" src="static/temp/{{image_name}}"></td>
                           <td>{{image_name[-0:-6]}}</td>
+                          <td><input type="button" value="Re-weithe" onclick="SomeDeleteRowFunction(this)"></td>
                         </tr>
                     {% endfor %}
                   </tbody>
@@ -165,11 +177,5 @@
       </footer>
     </div>
   </div>
-
-  <script>
-    $(document).ready( function () {
-        $('#myTable').DataTable();
-    } );
-</script>
 </body>
 </html>
